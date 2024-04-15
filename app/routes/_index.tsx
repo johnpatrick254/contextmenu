@@ -19,29 +19,28 @@ export const options = [
 export default function Index() {
 
   const { selection, handleMouseOver, mouseOver, setMouseOver, handleSelection, displayMenu, closeMenu, showMenu, setHighlightedCords } = useContext(MenuContext);
+  const handleMouseUp = (e: { pageX: any; pageY: any; }) => {
+    const selection = window?.getSelection()
+    if (selection?.toString()) {
+      const x = e.pageX;
+      const y = e.pageY;
+      setHighlightedCords(x, y);
+    }
+  }
   useEffect(() => {
-    document.onkeydown = displayMenu;
-    document.onmouseup = function F(e) {
-      const selection = window?.getSelection()
-      if (selection?.toString()) {
+    document.addEventListener('keydown', displayMenu);
+    document.addEventListener("mouseup", handleMouseUp)
 
-        const x = e.pageX;
-        const y = e.pageY;
-        setHighlightedCords(x, y);
-      } else {
-        const viewportHeight = window.innerHeight * 20 / 100;
-        const viewportWidth = window.innerWidth * 40 / 100;
-        setHighlightedCords(viewportWidth, viewportHeight);
-      }
+    return () => {
+      document.removeEventListener('keydown', displayMenu);
+      document.removeEventListener("mouseup", handleMouseUp)
     }
 
   }
-    , [])
+    , [showMenu])
   return (
     <div
-      className="bg-main overflow-y-auto flex justify-center items-center min-h-screen w-full"
-      style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}
-      onKeyDown={displayMenu}
+      className="bg-main overflow-y-auto flex flex-col justify-start items-center min-h-screen w-full px-[7%] py-20 "
       onClick={closeMenu}
     >
       <div
@@ -50,9 +49,16 @@ export default function Index() {
           const highlightedText = window.getSelection();
           if ((highlightedText && highlightedText.toString().length > 0)) {
             e.preventDefault();
-          } else {
-            displayMenu(e)
-          };
+            const selection = window?.getSelection()
+            if (selection?.toString()) {
+              const rect = selection.getRangeAt(0).getBoundingClientRect();
+              const x = rect.right + 5;
+              const y = rect.bottom;
+              console.log(x, y)
+              setHighlightedCords(x, y);
+              displayMenu(e, { x, y })
+            }
+          }
 
         }}
 
@@ -65,8 +71,9 @@ export default function Index() {
         }}
 
         contentEditable
-        className="p-6 relative mx-auto border-none rounded-sm focus:border-none focus:outline-none w-[595px] h-[80vh] bg-white"
-      >{
+        className="p-4 relative mx-auto border-none rounded-sm focus:border-none focus:outline-none h-[800px] w-full bg-white md:w-3/4 lg:w-[60%] max-w-[570px]"
+      >
+        {
           selection
         }
       </div>
@@ -76,7 +83,7 @@ export default function Index() {
         <div
           className={`w-32 space-y-2 p-1.5 z-10  bg-menu_bg rounded-sm absolute top-[${showMenu.coords.y}px] left-[${showMenu.coords.x}px] text-primary font-open-sans transition-all ease-in-out duration-300 slide-up '}`}
           style={{
-            top: (showMenu.coords.y + 2) + 'px',
+            top: (showMenu.coords.y + 6) + 'px',
             left: (showMenu.coords.x + 2) + 'px',
           }}
         >

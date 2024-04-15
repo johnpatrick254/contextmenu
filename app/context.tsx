@@ -27,7 +27,8 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
     const [mouseOver, setMouseOver] = useState(false);
     const [selection, setSelection] = useState('');
     const [showMenu, setShowMenu] = useState({
-        show: false, coords: {
+        show: false,
+        coords: {
             y: 0,
             x: 0
         },
@@ -35,86 +36,86 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
     })
 
     const displayMenu = (e: { key: string; preventDefault: () => void; }, coords?: { x: number, y: number }) => {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            console.log('up', showMenu.currentOption)
+            if (showMenu.currentOption > 0) {
+                setShowMenu(prev => {
+                    return {
+                        ...prev,
+                        ['currentOption']: (prev.currentOption - 1)
+                    }
+                });
 
-        
-        if (showMenu.show) {
-            if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (showMenu.currentOption > 0) {
-                    console.log('up')
-                    setShowMenu(prev => {
-                        return {
-                            ...prev,
-                            ['currentOption']: (prev.currentOption--)
-                        }
-                    });
+            }
+        }
 
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            console.log('down', showMenu.currentOption)
+            if (showMenu.currentOption < 2) {
+                setShowMenu(prev => {
+                    return {
+                        ...prev,
+                        ['currentOption']: (prev.currentOption + 1)
+                    }
+                });
+            }
+        }
+
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSelection();
+        }
+
+
+        if (e.key === "/") {
+            e.preventDefault();
+            setShowMenu(prev => {
+                return {
+                    ...prev,
+                    ['show']: true,
                 }
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (showMenu.currentOption < 2) {
-                    console.log('down')
-                    setShowMenu(prev => {
-                        return {
-                            ...prev,
-                            ['currentOption']: (prev.currentOption++)
-                        }
-                    });
+            });
+
+        }
+        if (e.key === "w") {
+            e.preventDefault();
+            setShowMenu(prev => {
+                return {
+                    ...prev,
+                    ['show']: true,
+                    ['currentOption']: 0
                 }
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSelection();
-            }
+            });
+            setSelection('This is a test of option 1')
 
-        } else {
-            if (e.key === "/" ) {
-                e.preventDefault();
-                setShowMenu(prev => {
-                    return {
-                        ...prev,
-                        ['show']: true,
-                    }
-                });
+        }
+        if (e.key === "e") {
+            e.preventDefault();
+            setShowMenu(prev => {
+                return {
+                    ...prev,
+                    ['show']: true,
+                    ['currentOption']: 1
+                }
+            });
+            setSelection('This is a test of option 2')
 
-            }
-            if (e.key === "w" ) {
-                e.preventDefault();
-                setShowMenu(prev => {
-                    return {
-                        ...prev,
-                        ['show']: true,
-                        ['currentOption']:0
-                    }
-                });
-                setSelection('This is a test of option 1')
+        }
+        if (e.key === "r") {
+            e.preventDefault();
+            setShowMenu(prev => {
+                return {
+                    ...prev,
+                    ['show']: true,
+                    ['currentOption']: 2
+                }
+            });
+            setSelection('This is a test of option 3')
 
-            }
-            if (e.key === "e" ) {
-                e.preventDefault();
-                setShowMenu(prev => {
-                    return {
-                        ...prev,
-                        ['show']: true,
-                        ['currentOption']:1
-                    }
-                });
-                setSelection('This is a test of option 2')
+        }
 
-            }
-            if (e.key === "r" ) {
-                e.preventDefault();
-                setShowMenu(prev => {
-                    return {
-                        ...prev,
-                        ['show']: true,
-                        ['currentOption']:2
-                    }
-                });
-                setSelection('This is a test of option 3')
-
-            }
-
-        };
 
 
         if (coords)
@@ -130,6 +131,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         setShowMenu(prev => {
             return {
                 ...prev,
+                ['show']: showMenu.show,
                 ['coords']: { x, y }
             }
         });
@@ -159,7 +161,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
                 setSelection('')
                 break;
         }
-        closeMenu()
+        // closeMenu()
     }
 
     const handleMouseOver = (currentOption: number) => {
