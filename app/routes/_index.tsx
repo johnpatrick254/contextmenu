@@ -19,13 +19,12 @@ export const options = [
 export default function Index() {
 
   const { selection, handleMouseOver, mouseOver, setMouseOver, handleSelection, displayMenu, closeMenu, showMenu, setHighlightedCords } = useContext(MenuContext);
-  console.log('called')
   useEffect(() => {
-    document.querySelector('body')?.addEventListener('keydown', displayMenu);
+    document.onkeydown = displayMenu;
     document.onmouseup = function F(e) {
       const selection = window?.getSelection()
       if (selection?.toString()) {
-        
+
         const x = e.pageX;
         const y = e.pageY;
         setHighlightedCords(x, y);
@@ -49,7 +48,7 @@ export default function Index() {
         id="canvas"
         onKeyDown={(e) => {
           const highlightedText = window.getSelection();
-          if ((highlightedText && highlightedText.toString().length > 0) ) {
+          if ((highlightedText && highlightedText.toString().length > 0)) {
             e.preventDefault();
           } else {
             displayMenu(e)
@@ -68,17 +67,17 @@ export default function Index() {
         contentEditable
         className="p-6 relative mx-auto border-none rounded-sm focus:border-none focus:outline-none w-[595px] h-[80vh] bg-white"
       >{
-         selection
+          selection
         }
       </div>
       {
         showMenu.show
         &&
         <div
-            className={`w-32 space-y-2 p-1.5 z-10  bg-menu_bg rounded-sm absolute top-[${showMenu.coords.y}px] left-[${showMenu.coords.x}px] text-primary font-open-sans transition-all ease-in-out duration-300 slide-up '}`}
+          className={`w-32 space-y-2 p-1.5 z-10  bg-menu_bg rounded-sm absolute top-[${showMenu.coords.y}px] left-[${showMenu.coords.x}px] text-primary font-open-sans transition-all ease-in-out duration-300 slide-up '}`}
           style={{
             top: (showMenu.coords.y + 2) + 'px',
-            left: (showMenu.coords.x +2)+ 'px',
+            left: (showMenu.coords.x + 2) + 'px',
           }}
         >
           {

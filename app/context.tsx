@@ -36,7 +36,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
 
     const displayMenu = (e: { key: string; preventDefault: () => void; }, coords?: { x: number, y: number }) => {
 
-
+        
         if (showMenu.show) {
             if (e.key === 'ArrowUp') {
                 e.preventDefault();
