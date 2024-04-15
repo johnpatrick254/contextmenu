@@ -10,7 +10,7 @@ export const MenuContext = createContext({
     showMenu: {
         show: false,
         coords: {
-            x:700, y:20
+            x: 700, y: 20
         },
         currentOption: 0
     },
@@ -33,7 +33,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         },
         currentOption: 0
     })
-  
+
     const displayMenu = (e: { key: string; preventDefault: () => void; }, coords?: { x: number, y: number }) => {
 
 
@@ -41,6 +41,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
             if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 if (showMenu.currentOption > 0) {
+                    console.log('up')
                     setShowMenu(prev => {
                         return {
                             ...prev,
@@ -52,6 +53,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
             } else if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 if (showMenu.currentOption < 2) {
+                    console.log('down')
                     setShowMenu(prev => {
                         return {
                             ...prev,
@@ -64,18 +66,56 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
                 handleSelection();
             }
 
-        };
-
-        if (e.key === "/" && !showMenu.show) {
-            e.preventDefault();
+        } else {
+            if (e.key === "/" ) {
+                e.preventDefault();
                 setShowMenu(prev => {
                     return {
                         ...prev,
                         ['show']: true,
                     }
                 });
-            
-        }
+
+            }
+            if (e.key === "w" ) {
+                e.preventDefault();
+                setShowMenu(prev => {
+                    return {
+                        ...prev,
+                        ['show']: true,
+                        ['currentOption']:0
+                    }
+                });
+                setSelection('This is a test of option 1')
+
+            }
+            if (e.key === "e" ) {
+                e.preventDefault();
+                setShowMenu(prev => {
+                    return {
+                        ...prev,
+                        ['show']: true,
+                        ['currentOption']:1
+                    }
+                });
+                setSelection('This is a test of option 2')
+
+            }
+            if (e.key === "r" ) {
+                e.preventDefault();
+                setShowMenu(prev => {
+                    return {
+                        ...prev,
+                        ['show']: true,
+                        ['currentOption']:2
+                    }
+                });
+                setSelection('This is a test of option 3')
+
+            }
+
+        };
+
 
         if (coords)
             setShowMenu(prev => {
@@ -90,7 +130,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         setShowMenu(prev => {
             return {
                 ...prev,
-                ['coords']: {x,y}
+                ['coords']: { x, y }
             }
         });
     }
@@ -131,11 +171,11 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         });
     }
 
-    useEffect(()=>{
-        const viewportHeight = window.innerHeight * 20/100;
-        const viewportWidth = window.innerWidth * 40/100;
+    useEffect(() => {
+        const viewportHeight = window.innerHeight * 20 / 100;
+        const viewportWidth = window.innerWidth * 40 / 100;
         updateHighlightedCords(viewportWidth, viewportHeight);
-    },[])
+    }, [])
     return <MenuContext.Provider value={{ selection, handleMouseOver, mouseOver, setMouseOver, handleSelection, displayMenu, closeMenu, showMenu, setHighlightedCords: updateHighlightedCords }}>
         {children}
     </MenuContext.Provider>

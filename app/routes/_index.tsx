@@ -49,7 +49,7 @@ export default function Index() {
         id="canvas"
         onKeyDown={(e) => {
           const highlightedText = window.getSelection();
-          if (highlightedText && highlightedText.toString().length > 0) {
+          if ((highlightedText && highlightedText.toString().length > 0) ) {
             e.preventDefault();
           } else {
             displayMenu(e)
