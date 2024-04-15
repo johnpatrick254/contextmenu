@@ -71,7 +71,7 @@ export default function Index() {
         }}
 
         contentEditable
-        className="p-4 relative mx-auto border-none rounded-sm focus:border-none focus:outline-none h-[800px] w-full bg-white md:w-3/4 lg:w-[60%] max-w-[570px]"
+        className="p-4 relative mx-auto border-none rounded-sm focus:border-none focus:outline-none h-[800px] w-full bg-white md:w-3/4 lg:w-[60%] max-w-[700px]"
       >
         {
           selection
