@@ -48,7 +48,6 @@ export default function Index() {
         onKeyDown={(e) => {
           const highlightedText = window.getSelection();
           if ((highlightedText && highlightedText.toString().length > 0)) {
-            e.preventDefault();
             const selection = window?.getSelection()
             if (selection?.toString()) {
               const rect = selection.getRangeAt(0).getBoundingClientRect();
@@ -56,7 +55,7 @@ export default function Index() {
               const y = rect.bottom;
               console.log(x, y)
               setHighlightedCords(x, y);
-              displayMenu(e, { x, y })
+              displayMenu(e)
             }
           }
 
